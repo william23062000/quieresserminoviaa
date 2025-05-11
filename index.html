@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Quieres ser mi novia?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff0f5;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 4em;
+      background: linear-gradient(45deg, #c084fc, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 30px 60px;
+      font-size: 2em;
+      margin: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 15px;
+      border: none;
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    #message {
+      margin-top: 50px;
+      font-size: 2em;
+      color: #ff69b4;
+      display: none;
+    }
+
+    .corazon {
+      position: absolute;
+      top: -40px;
+      animation: rainDrop 5s linear forwards;
+      font-size: 30px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    @keyframes rainDrop {
+      0% {
+        transform: translateY(-100px);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0.1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="mainQuestion">¿Quieres ser mi novia?</h1>
+  <div id="buttons">
+    <button id="yesBtn">Sí</button>
+    <button id="noBtn">No</button>
+  </div>
+  <div id="message">Me encanta que tu respuesta sea sí, te amo mucho ❤️</div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const message = document.getElementById('message');
+    const mainQuestion = document.getElementById('mainQuestion');
+    const buttons = document.getElementById('buttons');
+
+    const frasesNo = [
+      "¿Estás segura de tu respuesta? 😢",
+      "¿De verdad quieres decir que no? 🥺",
+      "Esto no lo esperaba... 😥",
+      "¿Qué pasó? 😞",
+      "Eso me rompe el corazón... 💔",
+      "¿Segura que no quieres pensarlo más? 🤔",
+      "¿Realmente crees que es un no definitivo? 😓",
+      "No te vayas... 😭",
+      "Esto duele un poquito... 😞"
+    ];
+    let indexNo = 0;
+
+    const emojis = ["💖", "💗", "💞", "💕", "💓", "💘"];
+    let heartRate = 1;
+
+    function crearCorazon() {
+      for (let i = 0; i < heartRate; i++) {
+        const corazon = document.createElement('div');
+        corazon.classList.add('corazon');
+        corazon.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        corazon.style.left = Math.random() * 100 + "vw";
+        corazon.style.fontSize = (Math.random() * 20 + 20) + "px";
+        corazon.style.opacity = 0.2 + Math.random() * 0.5;
+        document.body.appendChild(corazon);
+        setTimeout(() => corazon.remove(), 6000);
+      }
+    }
+
+    setInterval(crearCorazon, 200);
+
+    yesBtn.addEventListener('click', () => {
+      message.style.display = "block";
+      mainQuestion.style.display = "none";
+      buttons.style.display = "none";
+      heartRate = 5;
+    });
+
+    noBtn.addEventListener('click', () => {
+      // Cambiar el texto del botón "No" por la frase actual
+      noBtn.textContent = frasesNo[indexNo];
+      indexNo = (indexNo + 1) % frasesNo.length;
+
+      // Reducir el tamaño del botón "No"
+      let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+      noBtn.style.fontSize = Math.max(10, currentFontSize - 8) + "px";
+
+      // Aumentar el tamaño del botón "Sí"
+      let yesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+      yesBtn.style.fontSize = (yesSize + 8) + "px";
+
+      heartRate = 1;
+    });
+  </script>
+</body>
+</html>
